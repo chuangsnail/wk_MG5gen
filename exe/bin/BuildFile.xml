@@ -1,0 +1,7 @@
+<use name="roofit"/>
+<use name="root"/>
+<use name="wk_MG5gen/tool"/>
+
+<bin name="A1"  file="A1.cc"/>
+<bin name="A2"  file="A2.cc"/>
+<bin name="TP_dilep"  file="TP_dilep.cc"/>
