@@ -41,7 +41,9 @@ void Selector::TP_dilep( const string& option = "directly", const string& sel = 
 			if( !GermanValenciaSelection_dilep( idx_b, idx_bb, idx_lepp, idx_lepn ) ) continue;
 		}
 		else if( sel.find("NoSel") )
-		{	//do nothing	}
+		{	
+			//do nothing	
+		}
 		pass_sel++;
 		
 		acpMgr.InputSelObjs( particle[idx_b], particle[idx_bb], particle[idx_lepp], particle[idx_nuep], particle[idx_lepn], particle[idx_nuen] );
@@ -125,7 +127,9 @@ void Selector::TP_semileptonic( const string& sel = "NoSel" )
 			if( !GermanValenciaSelection_semi( idx_b, idx_bb, idx_lep, idx_j1, idx_j2 ) ) continue;
 		}
 		else if( sel.find("NoSel") )
-		{	//do nothing	}
+		{	
+			//do nothing	
+		}
 		pass_sel++;
 
 		//--- see which top is leptonic ---//

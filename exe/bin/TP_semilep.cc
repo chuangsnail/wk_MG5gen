@@ -13,7 +13,11 @@ int main( int argc, char* argv[] )
 	if( !sel.Init( "normal" ) )
 		cerr << "Failed in Init()!" << endl;
 
-	sel.TP_semileptonic("NoSel");
+	if( argc == 3 ) {
+		sel.TP_semileptonic( argv[2] );
+	}
+	else
+		sel.TP_semileptonic( "NoSel" );
 	
 }
 

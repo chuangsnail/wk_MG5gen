@@ -97,7 +97,7 @@ public:
 	void B1993( const string& option, const string& sel );		//in B1993.cc
 	void TP_dilep( const string& option, const string& sel );	//in TP.cc
 	void TP_semileptonic( const string& sel );					//in TP.cc
-	//void B1998( const string& option, const string& sel );	//in B1998.cc
+	void B1998( const string& option, const string& sel );		//in B1998.cc
 	
 
 		//- Event Selection -//
