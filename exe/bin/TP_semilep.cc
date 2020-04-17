@@ -10,10 +10,10 @@ int main( int argc, char* argv[] )
 	ch->Add( filename.c_str() );
 
 	Selector sel( ch, string(argv[1]) );
-	if( !sel.Init( "test" ) )
+	if( !sel.Init( "normal" ) )
 		cerr << "Failed in Init()!" << endl;
 
-	sel.B1993( "A1", "NoSel" );
+	sel.TP_semileptonic("NoSel");
 	
 }
 

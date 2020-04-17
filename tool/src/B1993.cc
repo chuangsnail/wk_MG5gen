@@ -1,6 +1,6 @@
 #include "wk_MG5gen/tool/interface/frame.h"
 
-void Selector::B1993( const string& option = "" )
+void Selector::B1993( const string& option = "", const string& sel = "NoSel" )
 {
 	//There is no selection in W.B and A.B 's 1993 paper
 

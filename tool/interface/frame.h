@@ -1,8 +1,9 @@
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef FRAME_H_
+#define FRAME_H_
 #include "wk_MG5gen/tool/interface/Basic.h"
 #include "wk_MG5gen/tool/interface/Hists_lib.h"
 #include "wk_MG5gen/tool/interface/CalAcp_lib.h"
+#include "wk_MG5gen/tool/interface/Tool.h"
 
 #define MAX_Particle_NO 256
 
@@ -80,29 +81,31 @@ public:
 		Size = 0;
 	}
 
+	//--- member function in one job ---//
 	void SetMode( const string& m ) { mode = m; }
 	bool Init( const string& m );
 	
 	//--- member function in 1 event ---//
 
-	void InitEvent();
+	void InitEvent();											//in Selector.cc
 	void Get_Entry( int i ) {	MGtree->GetEntry(i);	}
 	//usually used after selection
-	void ConvertToP4();
+	void ConvertToP4();											//in Selector.cc
 	void EndEvent() { delete [] particle; Size = 0; }
 
-	void B1993( const string& option );
-	void TP_dilep( const string& option );
-	//void B1998( const string& option );
+		//- Observables -//
+	void B1993( const string& option, const string& sel );		//in B1993.cc
+	void TP_dilep( const string& option, const string& sel );	//in TP.cc
+	void TP_semileptonic( const string& sel );					//in TP.cc
+	//void B1998( const string& option, const string& sel );	//in B1998.cc
+	
 
-	//void TP_Dilep();
-/*
-	//use this method to fill into outside histagram
-	void FillAcp( Hists_Acp& h, double& v, double& w )
-	{
-		h.FillIn(v,w);
-	}
-*/
+		//- Event Selection -//
+	double MET();		//in Selecion.cc
+	bool GermanValenciaSelection_semi( const int& b, const int& bb, const int& lep, const int& j1, const int& j2 );		//in Selection.cc
+	bool GermanValenciaSelection_dilep( const int& b, const int& bb, const int& lepp, const int& lepn );	//in Selection.cc
+
+
 };
 
 //--- Use ---//
@@ -118,4 +121,4 @@ public:
 // 	intialize Hists_Acp in it and Draw
 
 
-#endif //FRAME_H
+#endif //FRAME_H_

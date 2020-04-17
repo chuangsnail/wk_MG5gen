@@ -13,7 +13,7 @@ int main( int argc, char* argv[] )
 	if( !sel.Init( "normal" ) )
 		cerr << "Failed in Init()!" << endl;
 
-	sel.B1993( "A2" );
+	sel.B1993( "A2", "NoSel" );
 	
 }
 
