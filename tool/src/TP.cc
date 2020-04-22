@@ -200,8 +200,7 @@ void Selector::TP_semileptonic( const string& sel = "NoSel" )
 	cout << "SetName : " << SetName << " ,pass_sel : " << pass_sel << " ,total_entries : " << total_entries  << endl;
 	cout << "selection eff : " << (double)pass_sel/(double)total_entries << endl;
 	string path = "/wk_cms2/cychuang/CMSSW_9_4_13/src/wk_MG5gen/exe/result/";
-	SetName = Tool::TransferChar( SetName, '/', '-' );
-	cout << "SetName is [ " << SetName << " ]" << endl;
+	//SetName = Tool::TransferChar( SetName, '/', '-' );
 	string filename = path + "TP_semilep_genAcp_" + sel + "_" + SetName  + ".root";
 	
 	TFile* f = new TFile( (char*)filename.c_str(), "recreate" );

@@ -1,6 +1,10 @@
 #include "wk_MG5gen/tool/interface/frame.h"
 
 using namespace std;
+//
+// argv = 'B1993 [sample name] ["A1" or "A2"] ["normal" or "test"] [selection type]'
+//
+
 
 int main( int argc, char* argv[] )
 {
@@ -10,10 +14,15 @@ int main( int argc, char* argv[] )
 	ch->Add( filename.c_str() );
 
 	Selector sel( ch, string(argv[1]) );
-	if( !sel.Init( "normal" ) )
+	if( !sel.Init( string(argv[3]) )) {		//argv[2] is "normal" or "test"
 		cerr << "Failed in Init()!" << endl;
+	}
 
-	sel.B1993( "A2", "NoSel" );
+	if( args == 4 ) {
+		sel.B1993( string(argv[2]), string(argv[4]) );
+	}
+	else
+		sel.B1993( string(argv[2]), "NoSel" );
 	
 }
 

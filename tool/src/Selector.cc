@@ -11,6 +11,9 @@ bool Selector::Init( const string& m = "normal" )
 		total_entries = MGtree->GetEntries(); 
 
 	pass_sel = 0;
+	if( SetName != "" ) {
+		SetName = Tool::TransferChar( SetName, '/', '-' );
+	}
 
 	if( MGtree->GetEntries() != 0 ) return true;
 	return false;
@@ -29,6 +32,9 @@ void Selector::ConvertToP4()
 		particle[i].SetPxPyPzE( evt.Px[i], evt.Py[i], evt.Pz[i], evt.E[i] );
 	}
 }
+
+//void Selector::FindParticle( const string option )
+
 
 
 string get_time_str(time_option opt)

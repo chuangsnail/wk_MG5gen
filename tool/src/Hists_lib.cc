@@ -16,6 +16,139 @@
 
 using namespace std;
 
+void 
+Hists_General_Acp::Init( const string& option )
+{
+/*
+	if( mode == "all" )
+	{
+		h_Acp_t = new TH1D( "h_Acp_t", "", N_Obs, 0, N_Obs );
+		h_Acp_mu = new TH1D( "h_Acp_mu", "", N_Obs, 0, N_Obs );
+		h_Acp_el = new TH1D( "h_Acp_el", "", N_Obs, 0, N_Obs );
+		
+		h_Acp_t1 = new TH1D( "h_Acp_t1", "", N_Obs, 0, N_Obs );
+		h_Acp_mu1 = new TH1D( "h_Acp_mu1", "", N_Obs, 0, N_Obs );
+		h_Acp_el1 = new TH1D( "h_Acp_el1", "", N_Obs, 0, N_Obs );
+		h_Acp_t2 = new TH1D( "h_Acp_t2", "", N_Obs, 0, N_Obs );
+		h_Acp_mu2 = new TH1D( "h_Acp_mu2", "", N_Obs, 0, N_Obs );
+		h_Acp_el2 = new TH1D( "h_Acp_el2", "", N_Obs, 0, N_Obs );
+	}
+*/
+	if( mode == "n1" )
+	{
+		h_Obs_mu_P = new TH1D( "h_Obs_mu_P", "", N_Obs, 0, N_Obs );
+		h_Obs_mu_N = new TH1D( "h_Obs_mu_N", "", N_Obs, 0, N_Obs );
+		h_Obs_el_P = new TH1D( "h_Obs_el_P", "", N_Obs, 0, N_Obs );
+		h_Obs_el_N = new TH1D( "h_Obs_el_N", "", N_Obs, 0, N_Obs );
+
+		h_Acp_t = new TH1D( "h_Acp_t", "", N_Obs, 0, N_Obs );
+		h_Acp_mu = new TH1D( "h_Acp_mu", "", N_Obs, 0, N_Obs );
+		h_Acp_el = new TH1D( "h_Acp_el", "", N_Obs, 0, N_Obs );
+	}
+	else if( mode == "n2" )
+	{
+		h_Obs_mu1_P = new TH1D( "h_Obs_mu1_P", "", N_Obs, 0, N_Obs );
+		h_Obs_mu1_N = new TH1D( "h_Obs_mu1_N", "", N_Obs, 0, N_Obs );
+		h_Obs_el1_P = new TH1D( "h_Obs_el1_P", "", N_Obs, 0, N_Obs );
+		h_Obs_el1_N = new TH1D( "h_Obs_el1_N", "", N_Obs, 0, N_Obs );
+
+		h_Obs_mu2_P = new TH1D( "h_Obs_mu2_P", "", N_Obs, 0, N_Obs );
+		h_Obs_mu2_N = new TH1D( "h_Obs_mu2_N", "", N_Obs, 0, N_Obs );
+		h_Obs_el2_P = new TH1D( "h_Obs_el2_P", "", N_Obs, 0, N_Obs );
+		h_Obs_el2_N = new TH1D( "h_Obs_el2_N", "", N_Obs, 0, N_Obs );
+		
+		h_Acp_t1 = new TH1D( "h_Acp_t1", "", N_Obs, 0, N_Obs );
+		h_Acp_mu1 = new TH1D( "h_Acp_mu1", "", N_Obs, 0, N_Obs );
+		h_Acp_el1 = new TH1D( "h_Acp_el1", "", N_Obs, 0, N_Obs );
+		h_Acp_t2 = new TH1D( "h_Acp_t2", "", N_Obs, 0, N_Obs );
+		h_Acp_mu2 = new TH1D( "h_Acp_mu2", "", N_Obs, 0, N_Obs );
+		h_Acp_el2 = new TH1D( "h_Acp_el2", "", N_Obs, 0, N_Obs );
+	}
+}
+
+void
+Hists_General_Acp::FillIn( const int& obs_idx, const string& ch, const double& obs_value, const double& weight, const string& set = "A" )
+{
+	//obs_idx == { 0, 1, 2 ... , N_Obs -1 }
+	double fill = (double)obs_idx + 0.5;
+	if( mode == "n1" )
+	{
+		if( ch == "mu" )
+		{
+			if( obs_value > 0. ) {
+				h_Obs_mu_P->Fill( fill, weight );
+			}
+			else if( obs_value < 0. ) {
+				h_Obs_mu_N->Fill( fill, weight );
+			}
+		}
+		else if( ch == "el" )
+		{
+			if( obs_value > 0. ) {
+				h_Obs_el_P->Fill( fill, weight );
+			}
+			else if( obs_value < 0. ) {
+				h_Obs_el_N->Fill( fill, weight );
+			}
+		}
+	}
+	else if( mode == "n2" )
+	{
+		if( set == "A" ) {
+			if( ch == "mu" )
+			{
+				if( obs_value > 0. ) {
+					h_Obs_mu1_P->Fill( fill, weight );
+				}
+				else if( obs_value < 0. ) {
+					h_Obs_mu1_N->Fill( fill, weight );
+				}
+			}
+			else if( ch == "el" )
+			{
+				if( obs_value > 0. ) {
+					h_Obs_el1_P->Fill( fill, weight );
+				}
+				else if( obs_value < 0. ) {
+					h_Obs_el1_N->Fill( fill, weight );
+				}
+			}
+		}
+		else if( set == "Abar" ) {
+			if( ch == "mu" )
+			{
+				if( obs_value > 0. ) {
+					h_Obs_mu2_P->Fill( fill, weight );
+				}
+				else if( obs_value < 0. ) {
+					h_Obs_mu2_N->Fill( fill, weight );
+				}
+			}
+			else if( ch == "el" )
+			{
+				if( obs_value > 0. ) {
+					h_Obs_el2_P->Fill( fill, weight );
+				}
+				else if( obs_value < 0. ) {
+					h_Obs_el2_N->Fill( fill, weight );
+				}
+			}
+		}
+	}
+}
+
+void
+Hists_General_Acp::Cal_Acp()
+{
+
+}
+
+void
+Hists_General_Acp::WriteIn()
+{
+
+}
+
 void
 Hists_DilepAcp::Init( const string& option = "all" )
 {

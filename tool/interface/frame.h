@@ -102,8 +102,9 @@ public:
 
 		//- Event Selection -//
 	double MET();		//in Selecion.cc
-	bool GermanValenciaSelection_semi( const int& b, const int& bb, const int& lep, const int& j1, const int& j2 );		//in Selection.cc
-	bool GermanValenciaSelection_dilep( const int& b, const int& bb, const int& lepp, const int& lepn );	//in Selection.cc
+	bool GermanValenciaSelection_semi( const int& b, const int& bb, const int& lep, const int& j1, const int& j2 );					//in Selection.cc
+	bool GermanValenciaSelection_dilep( const int& b, const int& bb, const int& lepp, const int& lepn );							//in Selection.cc
+	bool B1998_semi( const int& t, const int& tb, const int& b, const int& bb, const int& j1, const int& j2, const int& lep );		//in Selection.cc
 
 
 };

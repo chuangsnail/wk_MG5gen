@@ -32,6 +32,121 @@ inline double GetAcpErr( const double& Np, const double& Nn )
 
 //maybe we can use a mother class and inheritance, and the bins_No,hist_min/max are the mother member, and  Init(),WriteIn() are virtual functions! 
 
+class Hists_General_Acp
+{
+public:
+	string mode;
+	bool is_init;
+	int N_Obs;
+
+	//for init option = "n1"
+	
+	TH1D* h_Obs_mu_P;
+	TH1D* h_Obs_mu_N;
+	TH1D* h_Obs_el_P;
+	TH1D* h_Obs_el_N;
+	
+	TH1D* h_Acp_t;
+	TH1D* h_Acp_mu;
+	TH1D* h_Acp_el;
+	
+	//for "n2"
+	// for more robust 1998's observable , ex. { [( N> - N< )/( N> + N< )]setA - [( N'> - N'< )/( N'> + N'< )]setA' }
+	TH1D* h_Obs_mu1_P;
+	TH1D* h_Obs_mu1_N;
+	TH1D* h_Obs_el1_P;
+	TH1D* h_Obs_el1_N;
+	
+	TH1D* h_Obs_mu2_P;
+	TH1D* h_Obs_mu2_N;
+	TH1D* h_Obs_el2_P;
+	TH1D* h_Obs_el2_N;
+
+	TH1D* h_Acp_t1;
+	TH1D* h_Acp_t2;
+	TH1D* h_Acp_mu1;
+	TH1D* h_Acp_mu2;
+	TH1D* h_Acp_el1;
+	TH1D* h_Acp_el2;
+
+	Hists_General_Acp() 
+	{
+		mode = "n1";
+		is_init = false;
+		N_Obs = 4;
+	}
+
+	Hists_General_Acp( const string& m, const int& n ) 
+	{ 
+		mode = m;
+		is_init = false;
+		N_Obs = n;
+	}
+
+	~Hists_General_Acp()
+	{
+		if( is_init )
+		{
+			if( mode == "n1" )
+			{
+				delete h_Obs_mu_P;
+				delete h_Obs_mu_N;
+				delete h_Obs_el_P;
+				delete h_Obs_el_N;
+
+				delete h_Acp_t;
+				delete h_Acp_mu;
+				delete h_Acp_el;
+			}
+			else if( mode == "n2" )
+			{
+				delete h_Obs_mu1_P;
+				delete h_Obs_mu1_N;
+				delete h_Obs_el1_P;
+				delete h_Obs_el1_N;
+
+				delete h_Obs_mu2_P;
+				delete h_Obs_mu2_N;
+				delete h_Obs_el2_P;
+				delete h_Obs_el2_N;
+
+				delete h_Acp_t1;
+				delete h_Acp_mu1;
+				delete h_Acp_el1;
+				delete h_Acp_t2;
+				delete h_Acp_mu2;
+				delete h_Acp_el2;
+			}
+/*
+			else if( mode == "all" )
+			{
+				delete h_Acp_t;
+				delete h_Acp_mu;
+				delete h_Acp_el;
+				
+				delete h_Acp_t1;
+				delete h_Acp_mu1;
+				delete h_Acp_el1;
+				delete h_Acp_t2;
+				delete h_Acp_mu2;
+				delete h_Acp_el2;
+			}
+*/
+		}
+
+	}
+
+	void SetMode( const string& m ) { mode = m; }
+	void SetNObs( const int& n ) { N_Obs = n; }
+
+	void Init( const string& option );
+	void FillIn( const int& obs_idx, const string& ch, const double& obs_value, const double& weight, const string& set );
+	// obs_idx : which obs in this sets of observables
+	// ch : channel ( just work in semi-leptonic case )
+	// set : setA and setAbar, for semi-leptonic case
+	void Cal_Acp();
+	void WriteIn();
+};
 
 class Hists_DilepAcp
 {

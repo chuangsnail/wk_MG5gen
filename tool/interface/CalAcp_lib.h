@@ -1,6 +1,8 @@
 #ifndef CALACP_LIB_H
 #define CALACP_LIB_H
 
+#include "wk_MG5gen/tool/interface/Tool.h"
+
 #include "TLorentzVector.h"
 #include "TVector3.h"
 #include "TVector2.h"
@@ -67,8 +69,6 @@ private:
 	TLorentzVector p_t;
 	TLorentzVector p_tbar;
 
-	double Get_4D_LeviCivita( const TLorentzVector& a, const TLorentzVector& b, const TLorentzVector& c, const TLorentzVector& d );
-
 public:
 	
 	void Input_ttbar( const TLorentzVector& t, const TLorentzVector& tbar );
@@ -77,6 +77,79 @@ public:
 	double Obs3();
 
 };
+
+
+
+
+// To add-up all kind of Acp mgr
+
+//class General_Semi_AcpMgr
+
+
+
+class AcpMgr_1998
+{
+private:
+	string ch;
+
+	TLorentzVector p_t;
+	TLorentzVector p_tbar;
+	TLorentzVector p_b;
+	TLorentzVector p_bbar;
+	
+	//used in semi-leptonic channel
+	TLorentzVector p_j1;
+	TLorentzVector p_j2;
+	TLorentzVector p_lep;
+	TLorentzVector p_neu;
+
+	
+	//used in dileptonic channel
+	TLorentzVector p_lepp;
+	TLorentzVector p_neup;
+	TLorentzVector p_lepn;
+	TLorentzVector p_neun;
+
+public:
+
+	AcpMgr_1998() 
+	{
+		ch = "None";
+	}
+
+	AcpMgr_1998( const string& opt ) 
+	{
+		ch = opt;			//"semilep" or "dilep"
+	}
+
+	void SetOption( const string& opt )
+	{
+		ch = opt;			//"semilep" or "dilep"
+	}
+
+	void Preparation();
+	void BoostLepton( const string& frame );
+
+	void Input_ttbar( const TLorentzVector& t, const TLorentzVector& tbar );
+	void Input_bbbar( const TLorentzVector& b, const TLorentzVector& bbar );
+	
+	//for semi-leptonic
+	void Input_j1j2( const TLorentzVector& j1, const TLorentzVector& j2 );
+	void Input_lep( const TLorentzVector& lep );
+	void Input_neu( const TLorentzVector& neu );
+
+	//for dilep
+	void Input_lepp( const TLorentzVector& lepp );
+	void Input_neup( const TLorentzVector& neup );
+	void Input_lepn( const TLorentzVector& lepn );
+	void Input_neun( const TLorentzVector& neun );
+	
+	//Calculate Acp
+	double O1( const string& opt );
+	double O2( const string& opt );
+
+};
+
 
 
 #endif	//CALACP_LIB_H

@@ -13,6 +13,15 @@ Selector::MET()
 	return missing_ET.Et();
 }
 
+bool
+Selector::B1998_semi( const int& t, const int& tb, const int& b, const int& bb, const int& j1, const int& j2, const int& lep )
+{
+	if( particle[b].Pt() < 20. || particle[bb].Pt() < 20. ) return false;
+	if( particle[j1].Pt() < 20. || particle[j2].Pt() < 20. || particle[lep].Pt() < 20. ) return false;
+	if( fabs(particle[t].Eta()) > 3. || fabs(particle[tb].Eta()) > 3. ) return false;
+
+	return true;
+}
 
 bool 
 Selector::GermanValenciaSelection_semi( const int& b, const int& bb, const int& lep, const int& j1, const int& j2 )

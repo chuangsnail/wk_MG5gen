@@ -89,22 +89,6 @@ double AcpMgr::Obs13()
 //--- DilepAcpMgr ---//
 
 
-double DilepAcpMgr::Get_4D_LeviCivita( const TLorentzVector& a, const TLorentzVector& b, const TLorentzVector& c, const TLorentzVector& d )
-{
-	double res = 0.;
-	res = res + a.E() * b.Px() * c.Py() * d.Pz();
-	res = res + b.E() * c.Px() * d.Py() * a.Pz();
-	res = res + c.E() * d.Px() * a.Py() * b.Pz();
-	res = res + d.E() * a.Px() * b.Py() * c.Pz();
-	
-	res = res - d.E() * c.Px() * b.Py() * a.Pz();
-	res = res - c.E() * b.Px() * a.Py() * d.Pz();
-	res = res - b.E() * a.Px() * d.Py() * c.Pz();
-	res = res - a.E() * d.Px() * c.Py() * b.Pz();
-
-	return res;
-}
-
 void DilepAcpMgr::Input_ttbar( const TLorentzVector& t, const TLorentzVector& tbar )
 {
 	p_t = t;
@@ -124,10 +108,10 @@ void DilepAcpMgr::InputSelObjs( const TLorentzVector& b, const TLorentzVector& b
 double DilepAcpMgr::Obs1( const string& option = "seperately" )
 {
 	if( option == "seperately" ) {
-		return Get_4D_LeviCivita( ( p_b + p_lepp + p_nuep ), ( p_bbar + p_lepn + p_nuen ), p_lepp, p_lepn );
+		return Phys::Get_4D_LeviCivita( ( p_b + p_lepp + p_nuep ), ( p_bbar + p_lepn + p_nuen ), p_lepp, p_lepn );
 	}
 	else if( option == "directly" ) {
-		return Get_4D_LeviCivita( p_t, p_tbar, p_lepp, p_lepn );
+		return Phys::Get_4D_LeviCivita( p_t, p_tbar, p_lepp, p_lepn );
 	}
 	else
 		return 0.;
@@ -135,5 +119,107 @@ double DilepAcpMgr::Obs1( const string& option = "seperately" )
 
 double DilepAcpMgr::Obs3()
 {
-	return Get_4D_LeviCivita( p_b, p_bbar, p_lepp, p_lepn );
+	return Phys::Get_4D_LeviCivita( p_b, p_bbar, p_lepp, p_lepn );
+}
+
+
+//--- AcpMgr_1998 ---//
+
+void AcpMgr_1998::Input_ttbar( const TLorentzVector& t, const TLorentzVector& tbar )
+{
+	p_t = t;
+	p_tbar = tbar;
+}
+void AcpMgr_1998::Input_bbbar( const TLorentzVector& b, const TLorentzVector& bbar )
+{
+	p_b = b;
+	p_bbar = bbar;
+}
+	
+//for semi-leptonic
+
+void AcpMgr_1998::Input_j1j2( const TLorentzVector& j1, const TLorentzVector& j2 )
+{
+	p_j1 = j1;
+	p_j2 = j2;
+}
+void AcpMgr_1998::AcpMgr_1998::Input_lep( const TLorentzVector& lep ) 
+{	
+	p_lep = lep;
+}
+void AcpMgr_1998::Input_neu( const TLorentzVector& neu ) {	p_neu = neu;	}
+
+//for dilep
+void AcpMgr_1998::Input_lepp( const TLorentzVector& lepp ) {	p_lepp = lepp;	}
+void AcpMgr_1998::Input_neup( const TLorentzVector& neup ) {	p_neup = neup;	}
+void AcpMgr_1998::Input_lepn( const TLorentzVector& lepn ) {	p_lepn = lepn;	}
+void AcpMgr_1998::Input_neun( const TLorentzVector& neun ) {	p_neun = neun;	}
+
+void AcpMgr_1998::BoostLepton( const string& frame = "ttbar" )
+{
+	if( frame == "partonCM" )
+	{
+		//TVector3 partoncm = 
+	}
+	else if( frame == "ttbar" )
+	{
+		TVector3 ttcm = -( p_t + p_tbar ).BoostVector();
+		if( ch.find("semi") != string::npos )
+		{
+			p_lep.Boost( ttcm );
+		}
+		else if( ch.find("di") != string::npos )
+		{
+			p_lepp.Boost( ttcm );
+			p_lepn.Boost( ttcm );
+		}
+	}
+}
+
+void AcpMgr_1998::Preparation()
+{
+	if( ch == "None" ) return;
+	BoostLepton( "ttbar" );
+}
+
+double AcpMgr_1998::O1( const string& opt = "Ot" )
+{
+	if( ch.find("semi") != string::npos )
+	{
+		if( opt == "Ot" )
+		{
+			return ( p_t.Vect().Unit() ).Dot( p_lep.Vect().Unit() );
+		}
+		else if( opt == "Otb" )
+		{
+			return ( p_tbar.Vect().Unit() ).Dot( p_lep.Vect().Unit() );
+		}
+	}
+	else if( ch.find("di") != string::npos )
+	{
+		return ( p_t.Vect().Unit() ).Dot( p_lepp.Vect().Unit() ) - ( p_tbar.Vect().Unit() ).Dot( p_lepn.Vect().Unit() ); 
+	}
+
+	return 0.;
+}
+
+double AcpMgr_1998::O2( const string& opt = "Ot" )
+{
+	if( ch.find("semi") != string::npos )
+	{
+		if( opt == "Ot" )
+		{
+				
+		}
+		else if( opt == "Otb" )
+		{
+			
+		}
+	}
+	else if( ch.find("di") != string::npos )
+	{
+		
+	}
+	return 0.;
+
 }

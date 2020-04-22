@@ -10,10 +10,17 @@ int main( int argc, char* argv[] )
 	ch->Add( filename.c_str() );
 
 	Selector sel( ch, string(argv[1]) );
-	if( !sel.Init( "test" ) )
+	//argv[2] is normal or test
+	if( !sel.Init( string( argv[2] ) ) )
 		cerr << "Failed in Init()!" << endl;
 
-	sel.B1993( "A1", "NoSel" );
+	// arguments of selection
+	if( argc == 4 ) {
+		sel.B1998( "semi", string(argv[3]) );	//B1998_semi
+	}
+	else {
+		sel.B1998( "semi", "B1998_semi" );
+	}
 	
 }
 
